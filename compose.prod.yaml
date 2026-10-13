@@ -1,0 +1,9 @@
+services:
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: project-devops-prod
+    ports:
+      - "8091:8090"
+    restart: unless-stopped
