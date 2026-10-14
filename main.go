@@ -18,12 +18,12 @@ func main() {
 	<title>Project DevOps - UOC</title>
 </head>
 <body>
-	<h1>Soy alumno de la UOC</h1>
-	<p>Bienvenido a Project DevOps.</p>
+	<h1>Esto es solo una prueba</h1>
+	<p>No nos flipemos 3.0.</p>
 </body>
 </html>`)
 	})
 
-	log.Println("Servidor iniciado en el puerto 8080")
+	log.Println("Servidor iniciado en el puerto 8090")
 	log.Fatal(http.ListenAndServe(":8090", nil))
 }
