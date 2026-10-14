@@ -24,6 +24,6 @@ func main() {
 </html>`)
 	})
 
-	log.Println("Servidor iniciado en el puerto 8090")
+	log.Println("Servidor iniciado en el puerto 8090(DEV) 8091(PROD)")
 	log.Fatal(http.ListenAndServe(":8090", nil))
 }
