@@ -19,7 +19,7 @@ func main() {
 </head>
 <body>
 	<h1>Esto es solo una prueba</h1>
-	<p>No nos flipemos. What's your flavor?</p>
+	<p>No nos flipemos. What's your flavor test?</p>
 </body>
 </html>`)
 	})
