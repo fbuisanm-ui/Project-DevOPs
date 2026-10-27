@@ -19,11 +19,11 @@ func main() {
 </head>
 <body>
 	<h1>Esto es solo una prueba</h1>
-	<p>No nos flipemos 5.0. What's your flavor??</p>
+	<p>No nos flipemos. What's your flavor?</p>
 </body>
 </html>`)
 	})
 
-	log.Println("Servidor iniciado en el puerto 8090")
+	log.Println("Servidor iniciado en el puerto 8090(DEV) 8091(PROD)")
 	log.Fatal(http.ListenAndServe(":8090", nil))
 }
