@@ -60,7 +60,7 @@ func main() {
 		<title>Project DevOps - UOC</title>
 		<style>
 		h1 {
-			font-size: 100px;
+			font-size: 120px;
 		}
 		</style>
 	</head>
