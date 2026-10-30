@@ -1,0 +1,5 @@
+$kind: http-request
+name: http://localhost:8090/api/info
+description: ""
+url: http://localhost:8090/api/info
+method: GET
