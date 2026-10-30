@@ -1,9 +1,60 @@
+
+# ============================================================
+# CONFIGURACIÓN DOCKER COMPOSE - ENTORNO DE DESARROLLO
+# ============================================================
+
+# SERVICES define los servicios que queremos ejecutar.
+# Un servicio representa una aplicación o componente
+# que Docker Compose puede construir y poner en funcionamiento.
 services:
+
+  # Nombre del servicio de desarrollo.
+  # Este nombre permite identificarlo y gestionarlo desde
+  # los comandos de Docker Compose.
   app-dev:
+
+    # BUILD indica que Docker debe construir una imagen
+    # utilizando las instrucciones de un Dockerfile.
     build:
+
+      # CONTEXT establece la carpeta que Docker utilizará
+      # como contexto de construcción.
+      #
+      # El punto (.) significa que utilizamos el directorio
+      # actual, donde se encuentra este archivo Compose.
       context: .
+
+      # DOCKERFILE indica qué archivo contiene las instrucciones
+      # para construir la imagen.
+      #
+      # En nuestro proyecto utilizamos el archivo Dockerfile.
       dockerfile: Dockerfile
+
+    # CONTAINER_NAME establece un nombre personalizado
+    # para el contenedor que se creará.
+    #
+    # Así podemos identificarlo fácilmente en Docker,
+    # por ejemplo, al consultar sus registros o detenerlo.
     container_name: project-devops-dev
+
+    # PORTS permite conectar un puerto de nuestro ordenador
+    # con un puerto del contenedor.
     ports:
+
+      # Formato: "PUERTO_HOST:PUERTO_CONTENEDOR"
+      #
+      # 8090 (izquierda): puerto de nuestro ordenador.
+      # 8090 (derecha): puerto donde escucha Go dentro del contenedor.
+      #
+      # Gracias a esta correspondencia podemos acceder
+      # a la web mediante http://localhost:8090.
       - "8090:8090"
+
+    # RESTART define la política de reinicio del contenedor.
+    #
+    # unless-stopped significa que Docker intentará reiniciar
+    # el contenedor si se detiene inesperadamente.
+    #
+    # También lo reiniciará cuando Docker vuelva a arrancar,
+    # salvo que lo hayamos detenido manualmente.
     restart: unless-stopped
