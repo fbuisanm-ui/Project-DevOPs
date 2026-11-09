@@ -253,9 +253,9 @@ func main() {
 		json.NewEncoder(w).Encode(mensaje)
 	})
 
-	// ---------------------------------------------------------
+	// -------------------------------------------------------
 	// ACTUALIZAR UN MENSAJE: PUT /api/mensajes/{id}
-	// ---------------------------------------------------------
+	// -------------------------------------------------------
 
 	// Esta ruta permite modificar el texto de un mensaje existente.
 	mux.HandleFunc("PUT /api/mensajes/{id}", func(w http.ResponseWriter, r *http.Request) {
