@@ -1,25 +1,128 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+
+# ============================================================
+# CONFIGURACIÓN DE ARCHIVOS IGNORADOS POR GIT
+# ============================================================
+
+# Git permite utilizar dos estrategias para gestionar archivos:
 #
-# Binaries for programs and plugins
+# DENY LIST (lista de exclusión):
+# Por defecto, Git puede realizar el seguimiento de los archivos
+# del proyecto, salvo aquellos que indiquemos que debe ignorar.
+#
+# ALLOW LIST (lista de autorización):
+# Solo permitimos el seguimiento de determinados archivos.
+#
+# En este proyecto utilizamos la estrategia DENY LIST,
+# que es la más habitual en proyectos de desarrollo.
+#
+# Referencia de GitHub para proyectos Go:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+
+
+# ============================================================
+# 1. ARCHIVOS BINARIOS Y EJECUTABLES
+# ============================================================
+
+# Ignoramos archivos ejecutables de Windows.
+# La extensión .exe identifica normalmente programas ejecutables.
 *.exe
+
+# Ignoramos archivos ejecutables de Windows que terminan en .exe~
+# Suelen ser archivos temporales o copias de seguridad.
 *.exe~
+
+# Ignoramos bibliotecas dinámicas de Windows.
+# DLL significa Dynamic Link Library.
+# Contienen código que puede ser utilizado por otros programas.
 *.dll
+
+# Ignoramos bibliotecas compartidas de Linux y Unix.
+# La extensión .so significa Shared Object.
 *.so
+
+# Ignoramos bibliotecas dinámicas de macOS.
+# La extensión .dylib significa Dynamic Library.
 *.dylib
 
-# Test binary, built with `go test -c`
+
+# ============================================================
+# 2. ARCHIVOS GENERADOS DURANTE LAS PRUEBAS DE GO
+# ============================================================
+
+# Ignoramos los archivos terminados en .test.
+# Go puede generar ejecutables de prueba mediante:
+#
+# go test -c
+#
+# Estos archivos son resultados de compilación de pruebas,
+# no forman parte del código fuente que queremos compartir.
 *.test
 
-# Output of the go coverage tool, specifically when used with LiteIDE
+# Ignoramos archivos .out.
+# La herramienta de cobertura de Go puede generar archivos
+# con información sobre qué partes del código han sido probadas.
+#
+# Son resultados generados durante el desarrollo y normalmente
+# no necesitamos almacenarlos en el repositorio.
 *.out
 
-# Dependency directories (remove the comment below to include it)
+
+# ============================================================
+# 3. DIRECTORIOS DE DEPENDENCIAS
+# ============================================================
+
+# vendor/ es una carpeta que puede contener copias locales
+# de las dependencias utilizadas por un proyecto Go.
+#
+# En este momento NO estamos ignorando esta carpeta porque
+# la regla está comentada.
+#
+# Si elimináramos el símbolo #, Git dejaría de realizar
+# el seguimiento de los archivos que coincidan con esta regla.
+#
+# Para proyectos Go sencillos, normalmente no necesitamos
+# incluir las dependencias vendorizadas.
 # vendor/
 
-# Go workspace file
+
+# ============================================================
+# 4. ARCHIVOS DE CONFIGURACIÓN DE WORKSPACES DE GO
+# ============================================================
+
+# Ignoramos go.work.
+# Este archivo permite trabajar con varios módulos Go
+# simultáneamente dentro de un mismo workspace.
+#
+# Puede contener rutas locales específicas de cada desarrollador.
+# Por eso puede ser conveniente no compartirlo automáticamente.
 go.work
+
+# Ignoramos go.work.sum.
+# Contiene información de comprobación de las dependencias
+# utilizadas en el workspace de Go.
+#
+# Es un archivo auxiliar relacionado con go.work.
 go.work.sum
 
-# env file
+
+# ============================================================
+# 5. VARIABLES DE ENTORNO E INFORMACIÓN SENSIBLE
+# ============================================================
+
+# Ignoramos el archivo .env.
+#
+# Este archivo suele contener variables de configuración,
+# por ejemplo:
+#
+# DATABASE_PASSWORD=...
+# API_KEY=...
+# SECRET_TOKEN=...
+#
+# No queremos subir accidentalmente contraseñas, claves API
+# ni otros datos sensibles al repositorio.
+#
+# IMPORTANTE:
+# Si la aplicación necesita variables de entorno,
+# podemos proporcionarlas mediante Docker Compose
+# o el entorno de ejecución.
 .env

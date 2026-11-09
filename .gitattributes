@@ -1,2 +1,19 @@
-# Auto detect text files and perform LF normalization
+# ============================================================
+# CONFIGURACIÓN DE ATRIBUTOS DE GIT
+# ============================================================
+
+# Git puede detectar automáticamente si un archivo contiene texto.
+# Cuando identifica un archivo de texto, puede normalizar sus
+# finales de línea para mantener una configuración consistente.
+#
+# Esto resulta especialmente útil cuando diferentes personas
+# trabajan en el mismo proyecto utilizando distintos sistemas
+# operativos, como Windows, Linux o macOS.
+#
+# La normalización utiliza LF como formato interno en Git.
+#
+# IMPORTANTE:
+# Esta configuración no significa que Git vaya a convertir
+# todos los archivos a texto. Los archivos binarios, como
+# las imágenes JPG, no se tratan como archivos de texto.
 * text=auto

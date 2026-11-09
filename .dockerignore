@@ -1,7 +1,78 @@
+
+# ============================================================
+# ARCHIVOS Y CARPETAS QUE DOCKER DEBE IGNORAR
+# ============================================================
+
+# ------------------------------------------------------------
+# CONTROL DE VERSIONES: GIT
+# ------------------------------------------------------------
+
+# Ignoramos la carpeta .git.
+# Contiene toda la información interna del repositorio:
+# historial de cambios, ramas, commits y configuración de Git.
+#
+# No necesitamos esta información para construir nuestra aplicación.
+# Además, puede ocupar bastante espacio.
 .git
+
+# Ignoramos el archivo .gitignore.
+# Este archivo sirve para indicarle a Git qué archivos debe ignorar,
+# pero Docker no necesita conocer esas reglas para construir la imagen.
 .gitignore
+
+# Ignoramos .gitattributes.
+# Es un archivo de configuración de Git que permite establecer
+# propiedades de los archivos, como la normalización de saltos de línea.
+# No es necesario para ejecutar nuestra aplicación Go.
 .gitattributes
+
+
+# ------------------------------------------------------------
+# CONFIGURACIÓN DEL EDITOR
+# ------------------------------------------------------------
+
+# Ignoramos la carpeta .vscode.
+# Contiene configuraciones específicas del editor Visual Studio Code,
+# como preferencias del proyecto, extensiones recomendadas o tareas.
+#
+# Estas configuraciones son útiles para desarrollar,
+# pero no son necesarias dentro del contenedor Docker.
 .vscode
+
+
+# ------------------------------------------------------------
+# ARCHIVOS EJECUTABLES Y DE PRUEBAS
+# ------------------------------------------------------------
+
+# Ignoramos todos los archivos que terminen en .exe.
+# Son ejecutables de Windows.
+#
+# Nuestra aplicación se compila dentro de Docker para Linux,
+# por lo que no necesitamos incluir ejecutables de Windows.
 *.exe
+
+# Ignoramos todos los archivos que terminen en .test.
+# Go puede generar archivos de prueba compilados con esta extensión.
+#
+# No necesitamos esos ejecutables para construir ni ejecutar
+# la aplicación principal.
 *.test
+
+
+# ------------------------------------------------------------
+# ARCHIVOS CON VARIABLES DE ENTORNO
+# ------------------------------------------------------------
+
+# Ignoramos el archivo .env.
+# Habitualmente contiene variables de configuración de la aplicación,
+# como contraseñas, claves API o credenciales.
+#
+# No queremos incluir accidentalmente información sensible
+# dentro del contexto de construcción de Docker.
+#
+# IMPORTANTE:
+# Si en el futuro necesitamos variables de entorno dentro del
+# contenedor, deberemos proporcionarlas mediante Docker Compose
+# u otro mecanismo de configuración, no copiando este archivo
+# automáticamente a la imagen.
 .env

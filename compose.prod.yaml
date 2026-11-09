@@ -1,9 +1,47 @@
+# ============================================================
+# CONFIGURACIÓN DOCKER COMPOSE - ENTORNO DE PRODUCCIÓN
+# ============================================================
+
+# SERVICES define los servicios que Docker Compose gestionará.
 services:
+
+  # Nombre del servicio de producción.
   app-prod:
+
+    # BUILD indica que Docker debe construir una imagen
+    # utilizando las instrucciones de un Dockerfile.
     build:
+
+      # CONTEXT establece el directorio que Docker utilizará
+      # como contexto de construcción.
+      # El punto (.) representa el directorio actual.
       context: .
+
+      # DOCKERFILE especifica el archivo con las instrucciones
+      # necesarias para construir la imagen.
       dockerfile: Dockerfile
+
+    # CONTAINER_NAME asigna un nombre personalizado al contenedor.
+    # Facilita su identificación y gestión desde Docker.
     container_name: project-devops-prod
+
+    # PORTS conecta un puerto de nuestro ordenador
+    # con un puerto interno del contenedor.
     ports:
+
+      # Formato: "PUERTO_HOST:PUERTO_CONTENEDOR"
+      #
+      # 8091: puerto de acceso desde nuestro ordenador.
+      # 8090: puerto donde escucha el servidor Go dentro del contenedor.
+      #
+      # Permite acceder a la aplicación mediante:
+      # http://localhost:8091
       - "8091:8090"
+
+    # RESTART establece la política de reinicio del contenedor.
+    #
+    # unless-stopped significa que Docker intentará reiniciar
+    # el contenedor si se detiene inesperadamente.
+    # También lo reiniciará cuando Docker vuelva a arrancar,
+    # salvo que lo hayamos detenido manualmente.
     restart: unless-stopped
