@@ -97,7 +97,7 @@ func main() {
         			}
     		</style>
 			<body>
-				<h1>SOY ALUMNO DE LA UOC</h1>
+				<h1>SOY ALUMNO DE LA UOC: JENKINS TEST</h1>
 				<img src="/static/bladerunner.jpg" alt="Imagen del proyecto" width="600">
 			</body>
 			</html>
