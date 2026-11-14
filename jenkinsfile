@@ -12,14 +12,14 @@ pipeline {
 
         stage('Load Image') {
             steps {
-                sh 'minikube image load miapp:$BUILD_NUMBER'
+                sh 'sudo -u ubuntu -H minikube image load miapp:$BUILD_NUMBER'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'sudo -u ubuntu -H kubectl apply -f k8s/deployment.yaml'
+                sh 'sudo -u ubuntu -H kubectl apply -f k8s/service.yaml'
             }
         }
     }
