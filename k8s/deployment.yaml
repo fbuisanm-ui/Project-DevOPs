@@ -1,0 +1,21 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-devops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: project-devops
+  template:
+    metadata:
+      labels:
+        app: project-devops
+    spec:
+      containers:
+        - name: project-devops
+          image: project-devops:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8090
