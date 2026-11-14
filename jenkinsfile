@@ -12,7 +12,7 @@ pipeline {
 
         stage('Load Image') {
             steps {
-                sh 'minikube image load project-devops:1.0'
+                sh 'sudo -u ubuntu -H minikube image load project-devops:1.0'
             }
         }
 
