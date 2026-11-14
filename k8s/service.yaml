@@ -8,6 +8,7 @@ spec:
   selector:
     app: project-devops
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8090
       protocol: TCP
