@@ -5,6 +5,7 @@ import (
 	"fmt"           // Permite crear mensajes de texto con formato.
 	"log"           // Permite mostrar información y errores en la consola.
 	"net/http"      // Proporciona las herramientas para crear el servidor web.
+	"os"            // Permite obtener el hostname del contenedor.
 	"strconv"       // Permite convertir cadenas de texto en números enteros.
 	"sync"          // Permite proteger los datos cuando llegan varias peticiones a la vez.
 	"time"          // Permite configurar los tiempos máximos del servidor.
@@ -122,6 +123,38 @@ func main() {
 		json.NewEncoder(w).Encode(map[string]string{
 			"status": "ok",
 		})
+	})
+
+	// ---------------------------------------------------------
+	// IDENTIFICACIÓN DEL POD: GET /api/pod
+	// ---------------------------------------------------------
+	// Este endpoint permite identificar qué réplica de
+	// Kubernetes responde a cada petición HTTP.
+	//
+	// Kubernetes utiliza normalmente el nombre del pod
+	// como hostname del contenedor.
+	//
+	// Se utilizará para demostrar el balanceo de carga
+	// durante la fase 6 del Producto 2.
+
+	mux.HandleFunc("GET /api/pod", func(w http.ResponseWriter, r *http.Request) {
+
+		// Obtenemos el hostname del contenedor.
+		hostname, err := os.Hostname()
+
+		if err != nil {
+			http.Error(
+				w,
+				"No se pudo obtener el hostname",
+				http.StatusInternalServerError,
+			)
+			return
+		}
+
+		// Devolvemos el resultado como texto.
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+
+		fmt.Fprintf(w, "Hola desde el pod %s\n", hostname)
 	})
 
 	// ---------------------------------------------------------
