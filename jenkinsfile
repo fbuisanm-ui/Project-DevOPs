@@ -18,8 +18,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'sudo -u ubuntu -H kubectl apply -f k8s/deployment.yaml'
+                sh 'sudo -u ubuntu -H kubectl apply -f k8s/service.yaml'
             }
         }
     }
