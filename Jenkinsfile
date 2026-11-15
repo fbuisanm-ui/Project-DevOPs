@@ -1,8 +1,6 @@
 
 pipeline {
-    agent {
-        label 'minikube-local'
-    }
+    agent { label 'Debian-jk-agent' }
 
     options {
         timestamps()
@@ -16,28 +14,21 @@ pipeline {
     }
 
     stages {
-
         stage('Verificar entorno') {
             steps {
                 sh '''
-                    echo "=== Verificando herramientas ==="
+                    whoami
                     docker --version
-                    minikube version
-                    kubectl version --client
-
-                    echo "=== Estado de Minikube ==="
                     minikube status
                     kubectl get nodes
                 '''
             }
         }
 
-        stage('Build Docker') {
+        stage('Construir imagen Docker') {
             steps {
                 sh '''
-                    echo "=== Construyendo imagen ==="
-                    docker build \
-                      -t ${APP_NAME}:${BUILD_NUMBER} .
+                    docker build -t ${APP_NAME}:${BUILD_NUMBER} .
                 '''
             }
         }
@@ -45,28 +36,21 @@ pipeline {
         stage('Cargar imagen en Minikube') {
             steps {
                 sh '''
-                    echo "=== Cargando imagen ==="
-                    minikube image load \
-                      ${APP_NAME}:${BUILD_NUMBER}
+                    minikube image load ${APP_NAME}:${BUILD_NUMBER}
                 '''
             }
         }
 
-        stage('Desplegar Kubernetes') {
+        stage('Desplegar en Kubernetes') {
             steps {
                 sh '''
-                    echo "=== Aplicando manifiestos ==="
-                    kubectl apply -f k8s/
+                    sed "s|image: project-devops:1.0|image: ${APP_NAME}:${BUILD_NUMBER}|" \
+                        k8s/deployment.yaml > deployment-rendered.yaml
 
-                    echo "=== Actualizando imagen ==="
-                    kubectl set image \
-                      deployment/${DEPLOYMENT} \
-                      ${CONTAINER}=${APP_NAME}:${BUILD_NUMBER}
+                    kubectl apply -f deployment-rendered.yaml
+                    kubectl apply -f k8s/service.yaml
 
-                    echo "=== Esperando despliegue ==="
-                    kubectl rollout status \
-                      deployment/${DEPLOYMENT} \
-                      --timeout=180s
+                    kubectl rollout status deployment/${DEPLOYMENT} --timeout=180s
                 '''
             }
         }
@@ -74,29 +58,17 @@ pipeline {
         stage('Verificar réplicas') {
             steps {
                 sh '''
-                    echo "=== Comprobando réplicas ==="
-
-                    kubectl wait \
-                      --for=condition=available \
-                      deployment/${DEPLOYMENT} \
-                      --timeout=180s
+                    kubectl wait --for=condition=available \
+                        deployment/${DEPLOYMENT} --timeout=180s
 
                     kubectl get deployments
                     kubectl get pods -o wide
                     kubectl get services
 
-                    echo "=== Verificando 2 réplicas ==="
+                    READY=$(kubectl get deployment ${DEPLOYMENT} \
+                        -o jsonpath='{.status.readyReplicas}')
 
-                    READY=$(kubectl get deployment \
-                      ${DEPLOYMENT} \
-                      -o jsonpath='{.status.readyReplicas}')
-
-                    if [ "$READY" != "2" ]; then
-                        echo "ERROR: No hay 2 réplicas listas"
-                        exit 1
-                    fi
-
-                    echo "OK: 2 réplicas disponibles"
+                    test "$READY" = "2"
                 '''
             }
         }
@@ -104,15 +76,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completado correctamente.'
+            echo 'Despliegue completado correctamente.'
         }
-
         failure {
-            echo 'ERROR: Revisar logs del pipeline.'
-        }
-
-        always {
-            echo 'Finalizada la ejecución del pipeline.'
+            echo 'Error en el pipeline. Revisar la consola.'
         }
     }
 }
