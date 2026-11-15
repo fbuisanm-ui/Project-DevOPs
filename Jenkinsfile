@@ -11,6 +11,7 @@ pipeline {
         APP_NAME = 'project-devops'
         DEPLOYMENT = 'project-devops'
         CONTAINER = 'project-devops'
+        NAMESPACE = "${env.BRANCH_NAME == 'main' ? 'prod' : 'dev'}"
     }
 
     stages {
